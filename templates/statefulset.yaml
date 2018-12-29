@@ -206,12 +206,12 @@ spec:
               curl -kv \
                 --cert ${NIFI_BASE_DIR}/data/cert/admin/crt.pem --cert-type PEM \
                 --key ${NIFI_BASE_DIR}/data/cert/admin/key.pem --key-type PEM \
-                https://$(hostname -f):8443/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
+                https://$(hostname):8443/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
 {{- else }}
               curl -kv \
-                http://$(hostname -f):{{ .Values.properties.httpPort }}/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
+                http://$(hostname):{{ .Values.properties.httpPort }}/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
 {{- end }}
-              STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname -f)\") | .status")
+              STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname)\") | .status")
 
               if [[ ! $STATUS = "CONNECTED" ]]; then
                 echo "Node not found with CONNECTED state. Full cluster state:"
