@@ -39,6 +39,18 @@ loadBalancer:
   httpPort: 80
   httpsPort: 443
 
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+  - nifi.mydomain.com
+  tls:
+  - secretName: nifi-tls
+    hosts:
+    - nifi.mydomain.com
+
 # Amount of memory to give the NiFi java heap
 jvmMemory: 2g
 
