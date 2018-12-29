@@ -145,12 +145,13 @@ spec:
             cat "${NIFI_HOME}/conf/authorizers.empty" > "${NIFI_HOME}/conf/authorizers.xml"
           fi
           
-          prop_replace nifi.remote.input.host ${FQDN}
-          prop_replace nifi.cluster.node.address ${FQDN}
-          prop_replace nifi.zookeeper.connect.string ${NIFI_ZOOKEEPER_CONNECT_STRING}
+          #prop_replace nifi.remote.input.host ${FQDN}
+          #prop_replace nifi.cluster.node.address ${FQDN}
+          #prop_replace nifi.zookeeper.connect.string ${NIFI_ZOOKEEPER_CONNECT_STRING}
 
 {{- if .Values.ca.enabled }}
-          prop_replace nifi.web.https.host ${FQDN}
+          #prop_replace nifi.web.https.host ${FQDN}
+          #prop_replace nifi.web.http.host ${FQDN}
 
           prop_replace nifi.security.keystore ${NIFI_BASE_DIR}/data/cert/keystore.jks
           prop_replace nifi.security.keystorePasswd $(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
@@ -159,7 +160,6 @@ spec:
           prop_replace nifi.security.truststore ${NIFI_BASE_DIR}/data/cert/truststore.jks
           prop_replace nifi.security.truststorePasswd $(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
 {{- else }}
-          prop_replace nifi.web.http.host ${FQDN}
 {{- end }}
 
           exec bin/nifi.sh run
