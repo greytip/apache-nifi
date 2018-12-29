@@ -1,4 +1,4 @@
-FROM apache/nifi-toolkit:1.6.0
+FROM apache/nifi-toolkit:1.8.0
 
 ARG KUBECTL_VERSION=v1.10.3
 

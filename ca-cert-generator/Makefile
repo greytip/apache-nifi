@@ -1,4 +1,4 @@
 .PHONY: build
 build:
-	docker build -t pepov/ca-cert-generator .
-	docker push pepov/ca-cert-generator
+	docker build -t greytip/nifi-ca-cert-generator .
+	docker push greytip/nifi-ca-cert-generator
