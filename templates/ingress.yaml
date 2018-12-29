@@ -21,11 +21,7 @@ spec:
           - path: /
             backend:
               serviceName: {{ template "apache-nifi.fullname" . }}-headless
-            {{- if .Values.properties.clusterSecure }}
-              servicePort: {{ .Values.properties.httpsPort }}
-            {{- else }}
               servicePort: {{ .Values.properties.httpPort }}
-            {{- end }}
     {{- end -}}
  {{- if .Values.ingress.tls }}
   tls:
