@@ -149,6 +149,11 @@ spec:
           value: {{ .Values.properties.auth | quote }}
         - name: INITIAL_ADMIN_IDENTITY
           value: "CN={{ .Values.ca.admin.cn }},OU=NIFI"
+        - name: NIFI_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{.Values.properties.secretsFile}}-secrets
+              key: secret_key
         - name: NIFI_ZK_CONNECT_STRING
           value: {{ template "zookeeper.url" . }}
         - name: NIFI_SERVICE_NAME

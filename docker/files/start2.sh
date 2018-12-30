@@ -17,6 +17,8 @@ else
   cat "${NIFI_HOME}/conf/authorizers.empty" > "${NIFI_HOME}/conf/authorizers.xml"
 fi
 
+prop_replace 'nifi.sensitive.props.key'               "${NIFI_SECRET_KEY:-}"
+
 export NIFI_CLUSTER_ADDRESS=$FQDN
 export NIFI_WEB_HTTP_HOST=$FQDN
 export NIFI_WEB_HTTPS_HOST=$FQDN
