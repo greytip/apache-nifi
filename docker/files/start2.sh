@@ -18,6 +18,7 @@ fi
 # {{- if .Values.ca.enabled }}
 export NIFI_CLUSTER_ADDRESS=$HOSTNAME.$NIFI_SERVICE_NAME
 export NIFI_WEB_HTTP_HOST=$HOSTNAME.$NIFI_SERVICE_NAME
+export NIFI_WEB_HTTPS_HOST=$HOSTNAME.$NIFI_SERVICE_NAME
 export KEYSTORE_PATH=${NIFI_BASE_DIR}/data/cert/keystore.jks
 export KEYSTORE_TYPE='JKS'
 export KEYSTORE_PASSWORD=$(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
