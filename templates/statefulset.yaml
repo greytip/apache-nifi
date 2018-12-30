@@ -125,10 +125,6 @@ spec:
       - name: server
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        command:
-        - bash
-        - -ce
-        - |
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         ports:
