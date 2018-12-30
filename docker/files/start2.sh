@@ -15,20 +15,18 @@ else
 fi
 
 #NIFI_WEB_HTTP_HOST=$HOSTNAME.$HEADLESS_SERVICE_NAME
+# {{- if .Values.ca.enabled }}
 export NIFI_CLUSTER_ADDRESS=$HOSTNAME.$NIFI_SERVICE_NAME
 export NIFI_WEB_HTTP_HOST=$HOSTNAME.$NIFI_SERVICE_NAME
+export KEYSTORE_PATH=${NIFI_BASE_DIR}/data/cert/keystore.jks
+export KEYSTORE_TYPE='JKS'
+export KEYSTORE_PASSWORD=$(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
+export TRUSTSTORE_PATH=${NIFI_BASE_DIR}/data/cert/truststore.jks
+export TRUSTSTORE_TYPE='JKS'
+export TRUSTSTORE_PASSWORD=$(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
+# {{- end }}
 
 echo "Cluster address: $NIFI_CLUSTER_ADDRESS"
 
-# {{- if .Values.ca.enabled }}
-#prop_replace nifi.web.https.host "${NIFI_WEB_HTTP_HOST:-$HOSTNAME}"
-
-#prop_replace nifi.security.keystore ${NIFI_BASE_DIR}/data/cert/keystore.jks
-#prop_replace nifi.security.keystorePasswd $(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
-# prop_replace nifi.security.keyPasswd $(jq -r .keyPassword ${NIFI_BASE_DIR}/data/cert/config.json)
-
-#prop_replace nifi.security.truststore ${NIFI_BASE_DIR}/data/cert/truststore.jks
-#prop_replace nifi.security.truststorePasswd $(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
-# {{- end }}
 
 exec ${scripts_dir}/start.sh

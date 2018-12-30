@@ -146,7 +146,9 @@ spec:
           protocol: TCP
         env:
         - name: AUTH
-          value: {{ .Values.properties.auth | quote}}
+          value: {{ .Values.properties.auth | quote }}
+        - name: INITIAL_ADMIN_IDENTITY
+          value: {{ .Values.ca.admincn | quote }}
         - name: NIFI_ZK_CONNECT_STRING
           value: {{ template "zookeeper.url" . }}
         - name: NIFI_SERVICE_NAME
