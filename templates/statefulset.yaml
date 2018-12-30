@@ -129,41 +129,6 @@ spec:
         - bash
         - -ce
         - |
-          prop_replace () {
-            target_file=${NIFI_HOME}/conf/nifi.properties
-            echo 'replacing target file ' ${target_file}
-            sed -i -e "s|^$1=.*$|$1=$2|"  ${target_file}
-          }
-
-          #FQDN=$(hostname -f)
-          FQDN=$(hostname)
-
-          cat "${NIFI_HOME}/conf/nifi.temp" > "${NIFI_HOME}/conf/nifi.properties"
-
-          if [[ $(grep $(hostname) conf/authorizers.temp) ]]; then
-            cat "${NIFI_HOME}/conf/authorizers.temp" > "${NIFI_HOME}/conf/authorizers.xml"
-          else
-            cat "${NIFI_HOME}/conf/authorizers.empty" > "${NIFI_HOME}/conf/authorizers.xml"
-          fi
-          
-          prop_replace nifi.remote.input.host ${FQDN}
-          prop_replace nifi.cluster.node.address ${FQDN}
-          prop_replace nifi.zookeeper.connect.string ${NIFI_ZOOKEEPER_CONNECT_STRING}
-
-{{- if .Values.ca.enabled }}
-          prop_replace nifi.web.https.host ${FQDN}
-          prop_replace nifi.web.http.host ${FQDN}
-
-          prop_replace nifi.security.keystore ${NIFI_BASE_DIR}/data/cert/keystore.jks
-          prop_replace nifi.security.keystorePasswd $(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
-          prop_replace nifi.security.keyPasswd $(jq -r .keyPassword ${NIFI_BASE_DIR}/data/cert/config.json)
-
-          prop_replace nifi.security.truststore ${NIFI_BASE_DIR}/data/cert/truststore.jks
-          prop_replace nifi.security.truststorePasswd $(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
-{{- else }}
-{{- end }}
-
-          exec bin/nifi.sh run
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         ports:
@@ -184,7 +149,7 @@ spec:
           name: cluster
           protocol: TCP
         env:
-        - name: NIFI_ZOOKEEPER_CONNECT_STRING
+        - name: NIFI_ZK_CONNECT_STRING
           value: {{ template "zookeeper.url" . }}
         lifecycle:
           preStop:

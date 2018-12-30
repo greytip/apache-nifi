@@ -9,7 +9,7 @@ nifi:
   version: "1.8.0"
 
 image:
-  repository: apache/nifi
+  repository: greytip/nifi
   pullPolicy: IfNotPresent
   tag: "1.8.0"
 
@@ -19,7 +19,7 @@ sts:
   AntiAffinity: hard
 
 service:
-  type: ClusterIP
+  type: NodePort
 
 properties:
   isNode: true

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "apache-nifi.fullname" . }}
+  labels:
+    app: {{ include "apache-nifi.name" . | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+  annotations:
+{{- with .Values.service.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+{{- if .Values.properties.clusterSecure }}
+    - port: {{ .Values.properties.httpsPort }}
+      name: https
+{{- else}}
+    - port: {{ .Values.properties.httpPort }}
+      name: http
+{{- end }}
+    - port: {{ .Values.properties.clusterPort }}
+      name: cluster
+  selector:
+      app: {{ include "apache-nifi.name" . | quote }}
+      release: {{ .Release.Name | quote }}
