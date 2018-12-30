@@ -20,7 +20,7 @@ FROM apache/nifi
 LABEL maintainer="Greytip Software <dev@greytip.com>"
 LABEL site="https://www.greythr.com"
 
-ADD files/ ${NIFI_BASE_DIR}/scripts/
+COPY files/start2.sh ${NIFI_BASE_DIR}/scripts/start2.sh
 
 # Apply configuration and start NiFi
 # ENTRYPOINT      ["/bin/bash"]
