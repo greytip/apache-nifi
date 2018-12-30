@@ -147,6 +147,26 @@ spec:
         env:
         - name: NIFI_ZK_CONNECT_STRING
           value: {{ template "zookeeper.url" . }}
+        - name: NIFI_SERVICE_NAME
+          value: {{ template "apache-nifi.fullname" . }}-headless
+        - name: NIFI_CLUSTER_IS_NODE
+          value: "{{.Values.properties.isNode}}"
+        - name: NIFI_CLUSTER_NODE_PROTOCOL_PORT
+          value: "{{.Values.properties.clusterPort}}"
+        - name: NIFI_CLUSTER_NODE_PROTOCOL_THREADS
+          value: "10"
+        - name: NIFI_CLUSTER_NODE_PROTOCOL_MAX_THREADS
+          value: "50"
+        - name: NIFI_ELECTION_MAX_CANDIDATES
+          value: "2"
+        - name: NIFI_PROVENANCE_STORAGE
+          value: "{{.Values.properties.provenanceStorage}}"
+        - name: NIFI_STS_SECURE
+          value: "{{.Values.properties.siteToSite.secure}}"
+        - name: NIFI_STS_INPUT_PORT
+          value: "{{.Values.properties.siteToSite.port}}"
+        - name: NIFI_WEB_PROXY_HOST
+          value: "{{.Values.properties.webProxyHost}}"
         lifecycle:
           preStop:
             exec:
@@ -167,12 +187,13 @@ spec:
               curl -kv \
                 --cert ${NIFI_BASE_DIR}/data/cert/admin/crt.pem --cert-type PEM \
                 --key ${NIFI_BASE_DIR}/data/cert/admin/key.pem --key-type PEM \
-                https://$(hostname):8443/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
+                https://$(hostname -f):8443/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
 {{- else }}
               curl -kv \
-                http://$(hostname):{{ .Values.properties.httpPort }}/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
+                http://$(hostname -f):{{ .Values.properties.httpPort }}/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
+
 {{- end }}
-              STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname)\") | .status")
+              STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname).$NIFI_SERVICE_NAME\") | .status")
 
               if [[ ! $STATUS = "CONNECTED" ]]; then
                 echo "Node not found with CONNECTED state. Full cluster state:"
@@ -181,7 +202,7 @@ spec:
               fi
         livenessProbe:
           initialDelaySeconds: 90
-          periodSeconds: 60
+          periodSeconds: 30
           tcpSocket:
 {{- if .Values.properties.httpsPort }}
             port: {{ .Values.properties.httpsPort }}

@@ -22,7 +22,7 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: {{ $serviceName }}-headless
+              serviceName: {{ $serviceName }}
               servicePort: {{ $servicePort }}
     {{- end -}}
  {{- if .Values.ingress.tls }}
