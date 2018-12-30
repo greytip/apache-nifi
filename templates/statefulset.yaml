@@ -197,7 +197,7 @@ spec:
                 http://$(hostname -f):{{ .Values.properties.httpPort }}/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
 
 {{- end }}
-              STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname).$NIFI_SERVICE_NAME\") | .status")
+              STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname -f)\") | .status")
 
               if [[ ! $STATUS = "CONNECTED" ]]; then
                 echo "Node not found with CONNECTED state. Full cluster state:"
