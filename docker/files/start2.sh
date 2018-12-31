@@ -5,7 +5,7 @@ scripts_dir='/opt/nifi/scripts'
 # FQDN=$HOSTNAME.$NIFI_SERVICE_NAME
 FQDN=$(hostname -f)
 
-echo "Running start2.sh... $HOSTNAME, $FQDN, $NIFI_SECRET_KEY"
+echo "Running start2.sh... $FQDN"
 
 [ -f "${scripts_dir}/common.sh" ] && . "${scripts_dir}/common.sh"
 
