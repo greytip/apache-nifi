@@ -152,7 +152,7 @@ spec:
         - name: NIFI_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: {{.Values.properties.secretsFile}}-secrets
+              name: {{ .Values.properties.secretsFile }}-secrets
               key: secret_key
         - name: NIFI_ZK_CONNECT_STRING
           value: {{ template "zookeeper.url" . }}
@@ -316,19 +316,19 @@ spec:
           name: {{ template "apache-nifi.fullname" . }}-config
           items:
             - key: "logback.xml"
-              path: "logback.xml"
+              path: "logback.temp"
       - name: "login-identity-providers-xml"
         configMap:
           name: {{ template "apache-nifi.fullname" . }}-config
           items:
             - key: "login-identity-providers.xml"
-              path: "login-identity-providers.xml"
+              path: "login-identity-providers.temp"
       - name: "state-management-xml"
         configMap:
           name: {{ template "apache-nifi.fullname" . }}-config
           items:
             - key: "state-management.xml"
-              path: "state-management.xml"
+              path: "state-management.temp"
       - name: "zookeeper-properties"
         configMap:
           name: {{ template "apache-nifi.fullname" . }}-config
