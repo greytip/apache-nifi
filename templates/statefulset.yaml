@@ -246,13 +246,13 @@ spec:
             subPath: "bootstrap-notification-services.xml"
           - name: "logback-xml"
             mountPath: /opt/nifi/nifi-current/conf/logback.xml
-            subPath: "logback.xml"
+            subPath: "logback.temp"
           - name: "login-identity-providers-xml"
             mountPath: /opt/nifi/nifi-current/conf/login-identity-providers.xml
-            subPath: "login-identity-providers.xml"
+            subPath: "login-identity-providers.temp"
           - name: "state-management-xml"
             mountPath: /opt/nifi/nifi-current/conf/state-management.xml
-            subPath: "state-management.xml"
+            subPath: "state-management.temp"
           - name: "zookeeper-properties"
             mountPath: /opt/nifi/nifi-current/conf/zookeeper.properties
             subPath: "zookeeper.properties"
