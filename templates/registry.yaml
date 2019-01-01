@@ -1,0 +1,83 @@
+{{- if .Values.registry.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "apache-nifi.fullname" . }}-registry
+  labels:
+    app: {{ template "apache-nifi.name" . }}-registry
+    chart: {{ template "apache-nifi.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.registry.service.type }}
+  ports:
+    - port: {{ .Values.registry.port }}
+      targetPort: {{ .Values.registry.port }}
+      name: registry-server
+  selector:
+    app: {{ template "apache-nifi.name" . }}-registry
+    release: {{ .Release.Name }}
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "apache-nifi.fullname" . }}-registry
+  labels:
+    app: {{ template "apache-nifi.name" . }}-registry
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "apache-nifi.name" . }}-registry
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "apache-nifi.name" . }}-registry
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: registry
+        imagePullPolicy: {{ .Values.registry.image.pullPolicy | quote }}
+        image: "{{ .Values.registry.image.repository }}:{{ .Values.registry.image.tag }}"
+        command:
+        - sh
+        - -c
+        - |
+          exec ${NIFI_TOOLKIT_HOME}/bin/tls-toolkit.sh server -c "{{ template "apache-nifi.fullname" . }}-registry" -t "$(cat /etc/ca-mitm-token/token)" -p {{ .Values.registry.port }}
+        ports:
+        - containerPort: {{ .Values.registry.port }}
+        volumeMounts:
+          - name: ca-mitm-token
+            mountPath: /etc/ca-mitm-token
+      # needed until tls-toolkit.sh runs Java through exec
+      terminationGracePeriodSeconds: 0
+      env:
+      - name: AUTH
+        value: {{ .Values.registry.auth | quote }}
+      - name: INITIAL_ADMIN_IDENTITY
+        value: "CN={{ .Values.ca.admin.cn }},OU=NIFI"
+      - name: NIFI_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Values.properties.secretsFile }}-secrets
+            key: secret_key
+      - name: KEYSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Values.properties.secretsFile }}-secrets
+            key: keystore_password
+      - name: TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Values.properties.secretsFile }}-secrets
+            key: truststore_password
+      - name: KEYSTORE_TYPE
+        value: JKS
+      - name: TRUSTSTORE_TYPE
+        value: JKS
+
+{{- end -}}

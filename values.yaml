@@ -144,4 +144,15 @@ ca:
     cn: admin
   certgenSchedule: "@daily"
 
+registry:
+  enabled: false
+  auth: tls
+  image:
+    repository: apache/nifi-registry
+    tag: "0.3.0"
+    pullPolicy: IfNotPresent
+  port: 18080
+  service:
+    type: ClusterIP
+
 tokenGeneratorImage: greytip/nifi-ca-token-generator

@@ -159,13 +159,11 @@ spec:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
               key: keystore_password
-        - name: TRUSTSTORE_PASDWORD
+        - name: TRUSTSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
               key: truststore_password
-        - name: KEYSTORE_FOLDER
-          value: /opt/nifi-certs/
         - name: KEYSTORE_TYPE
           value: JKS
         - name: TRUSTSTORE_TYPE
