@@ -29,12 +29,16 @@ export NIFI_REMOTE_INPUT_HOST=$FQDN
 
 echo "Cluster address: $NIFI_CLUSTER_ADDRESS"
 
-export KEYSTORE_PATH=${NIFI_BASE_DIR}/data/cert/keystore.jks
+export KEYSTORE_PATH=${KEYSTORE_FOLDER}/keystore.jks
 export KEYSTORE_TYPE='JKS'
-export KEYSTORE_PASSWORD=$(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
-export TRUSTSTORE_PATH=${NIFI_BASE_DIR}/data/cert/truststore.jks
-export TRUSTSTORE_TYPE='JKS'
-export TRUSTSTORE_PASSWORD=$(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
+export TRUSTSTORE_PATH=${KEYSTORE_FOLDER}/truststore.jks
+
+mkdir -p $KEYSTORE_FOLDER
+cp ${NIFI_BASE_DIR}/data/cert/*.jks $KEYSTORE_FOLDER
+
+keytool -storepasswd -new $KEYSTORE_PASSWORD -keystore $KEYSTORE_PATH
+keytool -storepasswd -new $TRUSTSTORE_PASSWORD -keystore $TRUSTSTORE_PATH
+
 
 exec ${scripts_dir}/start.sh
 
