@@ -29,28 +29,27 @@ export NIFI_REMOTE_INPUT_HOST=$FQDN
 
 echo "Cluster address: $NIFI_CLUSTER_ADDRESS"
 
-KEYSTORE_FOLDER=${NIFI_BASE_DIR}/nifi-certs/
-mkdir -p ${KEYSTORE_FOLDER}
+# KEYSTORE_FOLDER=${NIFI_BASE_DIR}/nifi-certs/
+# mkdir -p ${KEYSTORE_FOLDER}
 
 #export KEYSTORE_PATH=${KEYSTORE_FOLDER}/keystore.jks
 #export TRUSTSTORE_PATH=${KEYSTORE_FOLDER}/truststore.jks
 
-cp ${NIFI_BASE_DIR}/data/cert/*.jks $KEYSTORE_FOLDER
+# cp ${NIFI_BASE_DIR}/data/cert/*.jks $KEYSTORE_FOLDER
 
 old_keystore_pass=$(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
 old_truststore_pass=$(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
 
-# keytool -storepasswd -new $KEYSTORE_PASSWORD -keystore $KEYSTORE_PATH -storepass old_keystore_pass
-# keytool -storepasswd -new $TRUSTSTORE_PASSWORD -keystore $TRUSTSTORE_PATH -storepass old_truststore_pass
+#export KEYSTORE_PASSWORD=$(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
+#export TRUSTSTORE_PASSWORD=$(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
 
 export KEYSTORE_PATH=${NIFI_BASE_DIR}/data/cert/keystore.jks
 export KEYSTORE_TYPE='JKS'
-export KEYSTORE_PASSWORD=$(jq -r .keyStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
 export TRUSTSTORE_PATH=${NIFI_BASE_DIR}/data/cert/truststore.jks
 export TRUSTSTORE_TYPE='JKS'
-export TRUSTSTORE_PASSWORD=$(jq -r .trustStorePassword ${NIFI_BASE_DIR}/data/cert/config.json)
 
+keytool -storepasswd -new $KEYSTORE_PASSWORD -keystore $KEYSTORE_PATH -storepass old_keystore_pass
+keytool -storepasswd -new $TRUSTSTORE_PASSWORD -keystore $TRUSTSTORE_PATH -storepass old_truststore_pass
 
 exec ${scripts_dir}/start.sh
-
 

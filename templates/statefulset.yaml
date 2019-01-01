@@ -154,12 +154,12 @@ spec:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
               key: secret_key
-        - name: KEYSTORE_PASSWORD2
+        - name: KEYSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
               key: keystore_password
-        - name: TRUSTSTORE_PASSWORD2
+        - name: TRUSTSTORE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
