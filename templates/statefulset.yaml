@@ -202,7 +202,7 @@ spec:
           value: "{{ .Values.ldap.url }}"
         - name: LDAP_MANAGER_DN
           value: "{{ .Values.ldap.managerDn }}"
-        - name: LDAP_MANAGER_PASSWORD:
+        - name: LDAP_MANAGER_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
