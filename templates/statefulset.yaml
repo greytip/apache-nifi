@@ -183,31 +183,30 @@ spec:
         - name: NIFI_ELECTION_MAX_CANDIDATES
           value: "2"
         - name: NIFI_PROVENANCE_STORAGE
-          value: "{{.Values.properties.provenanceStorage}}"
+          value: "{{ .Values.properties.provenanceStorage }}"
         - name: NIFI_STS_SECURE
-          value: "{{.Values.properties.siteToSite.secure}}"
+          value: "{{ .Values.properties.siteToSite.secure }}"
         - name: NIFI_STS_INPUT_PORT
-          value: "{{.Values.properties.siteToSite.port}}"
+          value: "{{ .Values.properties.siteToSite.port }}"
         - name: NIFI_WEB_PROXY_HOST
-          value: "{{.Values.properties.webProxyHost}}"
+          value: "{{ .Values.properties.webProxyHost }}"
         - name: LDAP_AUTHENTICATION_STRATEGY
-          value: "{{.Values.ldap.authStrategy}}"
+          value: "{{ .Values.ldap.authStrategy }}"
         - name: LDAP_USER_SEARCH_BASE
-          value: "{{.Values.ldap.searchBase}}"
+          value: "{{ .Values.ldap.searchBase }}"
         - name: LDAP_USER_SEARCH_FILTER
-          value: "{{.Values.ldap.searchFilter}}"
+          value: "{{ .Values.ldap.searchFilter }}"
         - name: LDAP_IDENTITY_STRATEGY
-          value: "{{.Values.ldap.idStrategy}}"
+          value: "{{ .Values.ldap.idStrategy }}"
         - name: LDAP_URL
-          value: "{{.Values.ldap.url}}"
+          value: "{{ .Values.ldap.url }}"
         - name: LDAP_MANAGER_DN
-          value: "{{.Values.ldap.managerDn}}"
+          value: "{{ .Values.ldap.managerDn }}"
         - name: LDAP_MANAGER_PASSWORD:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
               key: ldap_password
-
         lifecycle:
           preStop:
             exec:
