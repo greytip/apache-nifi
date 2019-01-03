@@ -36,6 +36,15 @@ properties:
   authorizer: managed-authorizer
   secretsFile: nifi
 
+ldap:
+  authStrategy: 'SIMPLE'
+  url: ''
+  managerDn: ''
+  searchBase: ''
+  searchFilter: ''
+  identityStrategy: 'USE_DN'
+
+
 loadBalancer:
   enabled: true
   httpPort: 80

@@ -190,6 +190,24 @@ spec:
           value: "{{.Values.properties.siteToSite.port}}"
         - name: NIFI_WEB_PROXY_HOST
           value: "{{.Values.properties.webProxyHost}}"
+        - name: LDAP_AUTHENTICATION_STRATEGY
+          value: "{{.Values.ldap.authStrategy}}"
+        - name: LDAP_USER_SEARCH_BASE
+          value: "{{.Values.ldap.searchBase}}"
+        - name: LDAP_USER_SEARCH_FILTER
+          value: "{{.Values.ldap.searchFilter}}"
+        - name: LDAP_IDENTITY_STRATEGY
+          value: "{{.Values.ldap.idStrategy}}"
+        - name: LDAP_URL
+          value: "{{.Values.ldap.url}}"
+        - name: LDAP_MANAGER_DN
+          value: "{{.Values.ldap.dn}}"
+        - name: LDAP_MANAGER_PASSWORD:
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.properties.secretsFile }}-secrets
+              key: ldap_password
+
         lifecycle:
           preStop:
             exec:
