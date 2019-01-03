@@ -42,8 +42,7 @@ ldap:
   managerDn: ''
   searchBase: ''
   searchFilter: ''
-  identityStrategy: 'USE_DN'
-
+  idStrategy: 'USE_DN'
 
 loadBalancer:
   enabled: true
