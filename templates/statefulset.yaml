@@ -278,12 +278,6 @@ spec:
           - name: "logback-xml"
             mountPath: /opt/nifi/nifi-current/conf/logback.temp
             subPath: "logback.temp"
-          - name: "login-identity-providers-xml"
-            mountPath: /opt/nifi/nifi-current/conf/login-identity-providers.temp
-            subPath: "login-identity-providers.temp"
-          - name: "state-management-xml"
-            mountPath: /opt/nifi/nifi-current/conf/state-management.temp
-            subPath: "state-management.temp"
           - name: "zookeeper-properties"
             mountPath: /opt/nifi/nifi-current/conf/zookeeper.properties
             subPath: "zookeeper.properties"
