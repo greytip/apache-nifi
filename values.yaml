@@ -44,6 +44,12 @@ ldap:
   searchFilter: ''
   idStrategy: 'USE_DN'
 
+oid:
+  discoveryUrl: ''
+  connectTimeout: '5 secs'
+  readTimeout: '5 secs'
+  clientId: ''
+
 loadBalancer:
   enabled: true
   httpPort: 80

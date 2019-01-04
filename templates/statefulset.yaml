@@ -207,6 +207,19 @@ spec:
             secretKeyRef:
               name: {{ .Values.properties.secretsFile }}-secrets
               key: ldap_password
+        - name: OIDC_DISCOVERY_URL
+          value: "{{ .Values.oidc.discoveryUrl }}"
+        - name: OIDC_CONNECT_TIMEOUT
+          value: "{{ .Values.oidc.connectTimeout }}"
+        - name: OIDC_READ_TIMEOUT
+          value: "{{ .Values.oidc.readTimeout }}"
+        - name: OIDC_CLIENT_ID
+          value: "{{ .Values.oidc.clientId }}"
+        - name: OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.properties.secretsFile }}-secrets
+              key: oidc_client_secret
         lifecycle:
           preStop:
             exec:
