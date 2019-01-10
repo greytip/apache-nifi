@@ -1,10 +1,10 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: {{ template "apache-nifi.fullname" . }}
+  name: bg-{{ template "apache-nifi.fullname" . }}
   labels:
-    app: {{ include "apache-nifi.name" . | quote }}
-    role: frontend
+    app: {{ include "apache-nifi.name" . }}
+    role: backend
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
@@ -18,7 +18,7 @@ spec:
         security.alpha.kubernetes.io/sysctls: net.ipv4.ip_local_port_range=10000 65000
       labels:
         app: {{ include "apache-nifi.name" . | quote }}
-        role: frontend
+        role: backend
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: {{ .Release.Name | quote }}
         heritage: {{ .Release.Service | quote }}

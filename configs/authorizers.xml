@@ -48,8 +48,9 @@
         <property name="Users File">../data/users.xml</property>
         <property name="Legacy Authorized Users File"></property>
 {{- range $i := until $replicas }}
-        <property name="Initial User Identity {{ $i }}">CN={{ $release }}-{{ $chart }}-{{ $i }}.{{ $release }}-{{ $chart }}-headless.{{ $namespace }}.svc.cluster.local, OU=NIFI</property>
+        <property name="Initial User Identity {{ $i }}">CN=bg-{{ $release }}-{{ $chart }}-{{ $i }}.{{ $release }}-{{ $chart }}-headless.{{ $namespace }}.svc.cluster.local, OU=NIFI</property>
 {{- end }}
+        <property name="Initial User Identity Web">CN={{ $release }}-{{ $chart }}-0.{{ $release }}-{{ $chart }}-headless.{{ $namespace }}.svc.cluster.local, OU=NIFI</property>
         <property name="Initial User Identity admin">CN={{ .Values.ca.admin.cn }}, OU=NIFI</property>
     </userGroupProvider>
 
@@ -221,8 +222,9 @@
         <property name="Initial Admin Identity">CN={{ .Values.ca.admin.cn }}, OU=NIFI</property>
         <property name="Legacy Authorized Users File"></property>
 {{- range $i := until $replicas }}
-        <property name="Node Identity {{ $i }}">CN={{ $release }}-{{ $chart }}-{{ $i }}.{{ $release }}-{{ $chart }}-headless.{{ $namespace }}.svc.cluster.local, OU=NIFI</property>
+        <property name="Node Identity {{ $i }}">CN=bg-{{ $release }}-{{ $chart }}-{{ $i }}.{{ $release }}-{{ $chart }}-headless.{{ $namespace }}.svc.cluster.local, OU=NIFI</property>
 {{- end }}
+        <property name="Node Identity Web">CN={{ $release }}-{{ $chart }}-0.{{ $release }}-{{ $chart }}-headless.{{ $namespace }}.svc.cluster.local, OU=NIFI</property>
     </accessPolicyProvider>
 
     <!--

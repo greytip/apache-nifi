@@ -22,5 +22,6 @@ spec:
 {{- end }}
   selector:
     app: {{ template "apache-nifi.name" . }}
+    role: frontend
     release: {{ .Release.Name }}
 {{- end -}}

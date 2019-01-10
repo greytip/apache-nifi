@@ -44,7 +44,7 @@ ldap:
   searchFilter: ''
   idStrategy: 'USE_DN'
 
-oid:
+oidc:
   discoveryUrl: ''
   connectTimeout: '5 secs'
   readTimeout: '5 secs'

@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $serviceName := include "apache-nifi.fullname" . -}}
-{{- $servicePort := .Values.properties.httpPort -}}
+{{- $servicePort := .Values.properties.httpsPort -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
