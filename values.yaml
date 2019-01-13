@@ -23,6 +23,7 @@ service:
 
 properties:
   isNode: true
+  backend: true
   auth: tls
   httpPort: null
   httpsPort: 8443
