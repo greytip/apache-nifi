@@ -171,3 +171,6 @@ registry:
     type: ClusterIP
 
 tokenGeneratorImage: greytip/nifi-ca-token-generator
+
+shareddata:
+  volume: null

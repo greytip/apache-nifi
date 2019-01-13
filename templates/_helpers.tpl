@@ -135,6 +135,8 @@ NiFi volume mounts
 */}}
 {{- define "volume-mounts" -}}
 volumeMounts:
+- mountPath: /opt/nifi/shared
+  name: shared-data
 - name: "data"
   mountPath: /opt/nifi/data
 - name: "flowfile-repository"
@@ -218,6 +220,9 @@ volumes:
 - name: ca-mitm-token
   secret:
     secretName: {{ template "apache-nifi.fullname" . }}-ca-mitm-token
+- name: shared-data
+  persistentVolumeClaim:
+    claimName: nifi-data
 {{- end -}}
 
 {{/*

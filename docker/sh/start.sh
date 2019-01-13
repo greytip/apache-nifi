@@ -65,6 +65,7 @@ case ${AUTH} in
         echo 'Enabling OIDC user authentication'
         . "${scripts_dir}/secure.sh"
         . "${scripts_dir}/oidc.sh"
+        ;;
 
     *)
         if [ ! -z "${NIFI_WEB_PROXY_HOST}" ]; then
