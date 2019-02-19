@@ -1,4 +1,4 @@
-version = 1.8.0-1.19
+version = 1.8.0-1.20
 
 .PHONY: build
 build:

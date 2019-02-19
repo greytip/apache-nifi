@@ -10,10 +10,10 @@ else
       http://$(hostname -f):$NIFI_HTTP_PORT/nifi-api/controller/cluster > $NIFI_BASE_DIR/data/cluster.state
 fi
 
-STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.address==\"$(hostname -f)\") | .status")
+STATUS=$(cat $NIFI_BASE_DIR/data/cluster.state | jq -r ".cluster.nodes[] | select(.status != \"DISCONNECTED\") | select(.address==\"$(hostname -f)\") | .status")
 
 if [[ ! $STATUS = "CONNECTED" ]]; then
   echo "Node not found with CONNECTED state. Full cluster state:"
-  jq . cluster.state
+  jq . $NIFI_BASE_DIR/data/cluster.state
   exit 1
 fi
